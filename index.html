@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dermatology & MetS — Data Collection Form</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap');
+
+:root {
+–purple: #673ab7;
+–purple-light: #ede7f6;
+–blue: #1a73e8;
+–border: #dadce0;
+–bg: #f0ebf8;
+–card: #ffffff;
+–text: #202124;
+–muted: #5f6368;
+–red: #d93025;
+–green: #1e8e3e;
+–orange: #f29900;
+–mild-bg: #e6f4ea; –mild-txt: #137333;
+–mod-bg: #fef7e0;  –mod-txt: #b06000;
+–sev-bg: #fce8e6;  –sev-txt: #c5221f;
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: ‘Roboto’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+padding-bottom: 60px;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+background: var(–purple);
+padding: 0;
+position: sticky;
+top: 0;
+z-index: 100;
+box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.topbar-inner {
+max-width: 760px;
+margin: 0 auto;
+padding: 10px 16px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+}
+.topbar h1 {
+font-family: ‘Google Sans’, sans-serif;
+color: white;
+font-size: 1rem;
+font-weight: 500;
+}
+.progress-wrap { display: flex; align-items: center; gap: 8px; }
+.progress-bar-bg {
+width: 140px;
+height: 6px;
+background: rgba(255,255,255,0.3);
+border-radius: 3px;
+overflow: hidden;
+}
+.progress-bar-fill {
+height: 100%;
+background: #f9ab00;
+border-radius: 3px;
+transition: width 0.4s ease;
+width: 0%;
+}
+.progress-pct { color: rgba(255,255,255,0.9); font-size: 0.78rem; min-width: 32px; }
+
+/* ── FORM WRAP ── */
+.form-wrap { max-width: 760px; margin: 0 auto; padding: 20px 16px; }
+
+/* ── HEADER CARD ── */
+.header-card {
+background: var(–card);
+border-radius: 8px;
+border-top: 10px solid var(–purple);
+padding: 24px 28px;
+margin-bottom: 14px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+.header-card h2 {
+font-family: ‘Google Sans’, sans-serif;
+font-size: 1.5rem;
+font-weight: 400;
+color: var(–text);
+margin-bottom: 6px;
+}
+.header-card p { font-size: 0.88rem; color: var(–muted); }
+
+/* ── SECTION CARD ── */
+.section-card {
+background: var(–card);
+border-radius: 8px;
+padding: 20px 24px;
+margin-bottom: 14px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+.section-title {
+font-family: ‘Google Sans’, sans-serif;
+font-size: 1rem;
+font-weight: 500;
+color: var(–purple);
+border-bottom: 2px solid var(–purple-light);
+padding-bottom: 8px;
+margin-bottom: 18px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.priority-badge {
+font-size: 0.68rem;
+font-weight: 700;
+padding: 2px 8px;
+border-radius: 10px;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+.p1 { background: #fce8e6; color: #c5221f; }
+.p2 { background: #fef7e0; color: #b06000; }
+
+/* ── QUESTION ── */
+.question {
+margin-bottom: 22px;
+padding: 16px 18px;
+border: 1px solid var(–border);
+border-radius: 8px;
+transition: border-color 0.2s, box-shadow 0.2s;
+background: #fafafa;
+}
+.question:focus-within {
+border-color: var(–purple);
+box-shadow: 0 0 0 2px var(–purple-light);
+background: white;
+}
+.q-label {
+font-size: 0.92rem;
+font-weight: 500;
+color: var(–text);
+margin-bottom: 12px;
+line-height: 1.4;
+display: flex;
+gap: 8px;
+}
+.q-num {
+color: var(–purple);
+font-weight: 700;
+min-width: 28px;
+}
+.q-hint {
+font-size: 0.78rem;
+color: var(–muted);
+margin: -6px 0 10px 36px;
+font-style: italic;
+}
+
+/* Text input */
+.q-text {
+width: 100%;
+border: none;
+border-bottom: 2px solid var(–border);
+background: transparent;
+font-family: ‘Roboto’, sans-serif;
+font-size: 0.92rem;
+color: var(–text);
+padding: 6px 2px;
+outline: none;
+transition: border-color 0.2s;
+}
+.q-text:focus { border-color: var(–purple); }
+
+/* Radio / Checkbox options */
+.options { display: flex; flex-direction: column; gap: 8px; margin-left: 4px; }
+.opt {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 8px 12px;
+border-radius: 6px;
+cursor: pointer;
+transition: background 0.15s;
+font-size: 0.88rem;
+border: 1.5px solid transparent;
+}
+.opt:hover { background: var(–purple-light); }
+.opt input[type=radio], .opt input[type=checkbox] { display: none; }
+.opt.selected-radio { background: var(–purple-light); border-color: var(–purple); color: var(–purple); font-weight: 500; }
+.opt.selected-check { background: var(–purple-light); border-color: var(–purple); }
+
+/* Custom radio/check visuals */
+.opt-circle {
+width: 18px; height: 18px;
+border: 2px solid var(–muted);
+border-radius: 50%;
+flex-shrink: 0;
+display: flex; align-items: center; justify-content: center;
+transition: all 0.15s;
+}
+.opt.selected-radio .opt-circle {
+border-color: var(–purple);
+background: var(–purple);
+}
+.opt.selected-radio .opt-circle::after {
+content: ‘’;
+width: 7px; height: 7px;
+background: white;
+border-radius: 50%;
+}
+.opt-square {
+width: 18px; height: 18px;
+border: 2px solid var(–muted);
+border-radius: 3px;
+flex-shrink: 0;
+display: flex; align-items: center; justify-content: center;
+transition: all 0.15s;
+}
+.opt.selected-check .opt-square {
+border-color: var(–purple);
+background: var(–purple);
+}
+.opt.selected-check .opt-square::after {
+content: ‘✓’;
+color: white;
+font-size: 12px;
+line-height: 1;
+}
+
+/* ── SCORE DISPLAY ── */
+.score-box {
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: linear-gradient(135deg, var(–purple) 0%, #4527a0 100%);
+color: white;
+border-radius: 8px;
+padding: 14px 20px;
+margin-top: 16px;
+flex-wrap: wrap;
+gap: 10px;
+}
+.score-box .sc-label { font-size: 0.8rem; opacity: 0.85; }
+.score-box .sc-val { font-size: 2rem; font-family: ‘Google Sans’, sans-serif; line-height: 1; }
+.sev-pill {
+padding: 5px 16px;
+border-radius: 16px;
+font-size: 0.82rem;
+font-weight: 600;
+}
+.sev-pill.mild { background: var(–mild-bg); color: var(–mild-txt); }
+.sev-pill.moderate { background: var(–mod-bg); color: var(–mod-txt); }
+.sev-pill.severe { background: var(–sev-bg); color: var(–sev-txt); }
+.sev-pill.none { background: #e8f0fe; color: var(–blue); }
+
+/* Formula display */
+.formula-box {
+background: #f8f9fa;
+border: 1px solid var(–border);
+border-radius: 6px;
+padding: 10px 14px;
+font-family: monospace;
+font-size: 0.85rem;
+color: var(–text);
+margin-top: 10px;
+}
+
+/* MetS criteria */
+.mets-crit {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 10px 14px;
+border: 1.5px solid var(–border);
+border-radius: 8px;
+margin-bottom: 8px;
+background: white;
+flex-wrap: wrap;
+transition: border-color 0.2s;
+}
+.mets-crit.met { border-color: #d93025; background: #fff8f7; }
+.mets-crit-label { font-size: 0.88rem; font-weight: 500; flex: 1; min-width: 150px; }
+.mets-cutoff { font-size: 0.75rem; color: var(–muted); }
+.mets-inp {
+width: 90px;
+border: 1px solid var(–border);
+border-radius: 5px;
+padding: 6px 8px;
+font-size: 0.88rem;
+text-align: center;
+outline: none;
+transition: border-color 0.2s;
+}
+.mets-inp:focus { border-color: var(–purple); }
+.crit-badge {
+font-size: 0.75rem;
+font-weight: 700;
+padding: 3px 10px;
+border-radius: 10px;
+background: #f1f3f4;
+color: var(–muted);
+white-space: nowrap;
+}
+.crit-badge.met { background: var(–sev-bg); color: var(–sev-txt); }
+.crit-badge.ok { background: var(–mild-bg); color: var(–mild-txt); }
+
+/* Diagnosis box */
+.diag-box {
+border-radius: 8px;
+padding: 16px 20px;
+margin-top: 16px;
+text-align: center;
+border: 2px solid var(–border);
+transition: all 0.3s;
+}
+.diag-box.present { background: var(–sev-bg); border-color: var(–red); }
+.diag-box.absent { background: var(–mild-bg); border-color: var(–green); }
+.diag-box .dt { font-size: 0.8rem; color: var(–muted); margin-bottom: 4px; }
+.diag-box .dv { font-family: ‘Google Sans’, sans-serif; font-size: 1.3rem; }
+.diag-box .dc { font-size: 0.8rem; color: var(–muted); margin-top: 4px; }
+
+/* PASI table */
+.pasi-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-bottom: 10px; }
+.pasi-table th {
+background: var(–purple-light);
+padding: 8px 10px;
+text-align: left;
+font-size: 0.78rem;
+font-weight: 600;
+color: var(–purple);
+border: 1px solid #d1c4e9;
+text-transform: uppercase;
+letter-spacing: 0.03em;
+}
+.pasi-table td { padding: 7px 10px; border: 1px solid var(–border); }
+.pasi-table tr:nth-child(even) td { background: #fafafa; }
+.pasi-table select {
+width: 100%;
+border: 1px solid var(–border);
+border-radius: 5px;
+padding: 5px 6px;
+font-size: 0.82rem;
+background: white;
+cursor: pointer;
+outline: none;
+}
+.pasi-table select:focus { border-color: var(–purple); }
+.pasi-table .rs { text-align: center; font-weight: 700; color: var(–purple); background: #ede7f6; }
+
+/* Summary */
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 14px; }
+.sum-card {
+background: white;
+border: 1.5px solid var(–border);
+border-radius: 8px;
+padding: 14px 16px;
+}
+.sum-card .sl { font-size: 0.74rem; color: var(–muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.sum-card .sv { font-family: ‘Google Sans’, sans-serif; font-size: 1.8rem; color: var(–purple); line-height: 1.1; }
+.sum-card .ss { font-size: 0.8rem; font-weight: 600; margin-top: 4px; }
+.ss.mild { color: var(–mild-txt); }
+.ss.moderate { color: var(–mod-txt); }
+.ss.severe { color: var(–sev-txt); }
+.ss.na { color: var(–muted); }
+
+/* Submit btn */
+.submit-bar {
+background: white;
+border-radius: 8px;
+padding: 16px 20px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+display: flex;
+align-items: center;
+justify-content: space-between;
+flex-wrap: wrap;
+gap: 12px;
+margin-top: 16px;
+}
+.btn-submit {
+background: var(–purple);
+color: white;
+border: none;
+border-radius: 4px;
+padding: 10px 28px;
+font-family: ‘Google Sans’, sans-serif;
+font-size: 0.95rem;
+font-weight: 500;
+cursor: pointer;
+transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-submit:hover { background: #4527a0; box-shadow: 0 2px 8px rgba(103,58,183,0.3); }
+.btn-clear {
+background: none;
+border: none;
+color: var(–purple);
+font-family: ‘Google Sans’, sans-serif;
+font-size: 0.88rem;
+cursor: pointer;
+padding: 8px 16px;
+border-radius: 4px;
+transition: background 0.15s;
+}
+.btn-clear:hover { background: var(–purple-light); }
+
+@media (max-width: 600px) {
+.topbar-inner { flex-direction: column; gap: 6px; }
+.progress-bar-bg { width: 200px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <h1>📋 Dermatology & Metabolic Syndrome — Data Collection</h1>
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog_fill"></div></div>
+      <div class="progress-pct" id="prog_pct">0%</div>
+    </div>
+  </div>
+</div>
+
+<div class="form-wrap">
+
+  <!-- HEADER -->
+
+  <div class="header-card">
+    <h2>Data Collection Questionnaire</h2>
+    <p>Dermatological Conditions &amp; Metabolic Syndrome · Study Design: Retrospective — Data Extracted from Medical Records</p>
+    <p style="margin-top:8px;font-size:0.82rem;color:#c5221f;">★ Required fields are indicated per section. All scores calculated automatically.</p>
+  </div>
+
+  <!-- ═══ SECTION 1 — PATIENT ID ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">📁 Section 1 — Patient Identification</div>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q1.</span> Patient study code</div>
+  <input class="q-text" id="q1" type="text" placeholder="Study code" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q2.</span> Hospital medical record number (coded)</div>
+  <input class="q-text" id="q2" type="text" placeholder="MRN (coded)" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q3.</span> Date of data extraction</div>
+  <input class="q-text" id="q3" type="date" oninput="updateProgress()">
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 2 — DEMOGRAPHICS ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">👤 Section 2 — Demographic Characteristics</div>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q4.</span> Age (years)</div>
+  <input class="q-text" id="q4" type="number" min="1" max="120" placeholder="e.g. 45" oninput="updateProgress()">
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q5.</span> Sex</div>
+  <div class="options" id="q5_opts">
+    <label class="opt" onclick="selectRadio('q5','Male',this)"><div class="opt-circle"></div><input type="radio" name="q5" value="Male"> Male</label>
+    <label class="opt" onclick="selectRadio('q5','Female',this)"><div class="opt-circle"></div><input type="radio" name="q5" value="Female"> Female</label>
+  </div>
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q6.</span> Nationality</div>
+  <input class="q-text" id="q6" type="text" placeholder="e.g. Saudi" oninput="updateProgress()">
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q7.</span> Marital status</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q7','Single',this)"><div class="opt-circle"></div><input type="radio" name="q7" value="Single"> Single</label>
+    <label class="opt" onclick="selectRadio('q7','Married',this)"><div class="opt-circle"></div><input type="radio" name="q7" value="Married"> Married</label>
+    <label class="opt" onclick="selectRadio('q7','Divorced',this)"><div class="opt-circle"></div><input type="radio" name="q7" value="Divorced"> Divorced</label>
+    <label class="opt" onclick="selectRadio('q7','Widowed',this)"><div class="opt-circle"></div><input type="radio" name="q7" value="Widowed"> Widowed</label>
+  </div>
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q8.</span> Occupation (if documented)</div>
+  <input class="q-text" id="q8" type="text" placeholder="Occupation" oninput="updateProgress()">
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 3 — LIFESTYLE ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🏃 Section 3 — Lifestyle Factors</div>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q9.</span> Smoking status</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q9','Current smoker',this)"><div class="opt-circle"></div><input type="radio" name="q9" value="Current smoker"> Current smoker</label>
+    <label class="opt" onclick="selectRadio('q9','Former smoker',this)"><div class="opt-circle"></div><input type="radio" name="q9" value="Former smoker"> Former smoker</label>
+    <label class="opt" onclick="selectRadio('q9','Non-smoker',this)"><div class="opt-circle"></div><input type="radio" name="q9" value="Non-smoker"> Non-smoker</label>
+  </div>
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q10.</span> Physical activity level (if documented)</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q10','Sedentary',this)"><div class="opt-circle"></div><input type="radio" name="q10" value="Sedentary"> Sedentary</label>
+    <label class="opt" onclick="selectRadio('q10','Moderate activity',this)"><div class="opt-circle"></div><input type="radio" name="q10" value="Moderate activity"> Moderate activity</label>
+    <label class="opt" onclick="selectRadio('q10','Active',this)"><div class="opt-circle"></div><input type="radio" name="q10" value="Active"> Active</label>
+  </div>
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q11.</span> Dietary pattern (if documented)</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q11','High carbohydrate',this)"><div class="opt-circle"></div><input type="radio" name="q11" value="High carbohydrate"> High carbohydrate diet</label>
+    <label class="opt" onclick="selectRadio('q11','High fat',this)"><div class="opt-circle"></div><input type="radio" name="q11" value="High fat"> High fat diet</label>
+    <label class="opt" onclick="selectRadio('q11','Balanced',this)"><div class="opt-circle"></div><input type="radio" name="q11" value="Balanced"> Balanced diet</label>
+    <label class="opt" onclick="selectRadio('q11','Not documented',this)"><div class="opt-circle"></div><input type="radio" name="q11" value="Not documented"> Not documented</label>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 4 — ANTHROPOMETRIC ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">⚖️ Section 4 — Anthropometric Measurements</div>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q12.</span> Height (cm)</div>
+  <input class="q-text" id="q12" type="number" step="0.1" placeholder="e.g. 172" oninput="calcBMI(); updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q13.</span> Weight (kg)</div>
+  <input class="q-text" id="q13" type="number" step="0.1" placeholder="e.g. 85" oninput="calcBMI(); updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q14.</span> BMI (kg/m²)</div>
+  <div class="q-hint">📌 BMI ≥ 30 = Obesity · Auto-calculated from height &amp; weight</div>
+  <input class="q-text" id="q14" type="text" placeholder="Auto-calculated or enter manually" readonly style="color:var(--purple);font-weight:500;">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q15.</span> Waist circumference (cm)</div>
+  <div class="q-hint">📌 Criterion: ≥ 102 cm (Male) / ≥ 88 cm (Female)</div>
+  <input class="q-text" id="q15" type="number" placeholder="cm" oninput="calcMetS(); updateProgress()">
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 5 — BLOOD PRESSURE ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🩺 Section 5 — Blood Pressure</div>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q16.</span> Systolic blood pressure (mmHg)</div>
+  <div class="q-hint">📌 Criterion: ≥ 130 mmHg</div>
+  <input class="q-text" id="q16" type="number" placeholder="mmHg" oninput="calcMetS(); updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q17.</span> Diastolic blood pressure (mmHg)</div>
+  <div class="q-hint">📌 Criterion: ≥ 85 mmHg</div>
+  <input class="q-text" id="q17" type="number" placeholder="mmHg" oninput="calcMetS(); updateProgress()">
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 6 — LABS ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🧪 Section 6 — Laboratory Parameters</div>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q18.</span> Fasting blood glucose (mg/dL)</div>
+  <div class="q-hint">📌 Criterion: ≥ 100 mg/dL</div>
+  <input class="q-text" id="q18" type="number" placeholder="mg/dL" oninput="calcMetS(); updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q19.</span> Triglycerides (mg/dL)</div>
+  <div class="q-hint">📌 Criterion: ≥ 150 mg/dL</div>
+  <input class="q-text" id="q19" type="number" placeholder="mg/dL" oninput="calcMetS(); updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q20.</span> HDL cholesterol (mg/dL)</div>
+  <div class="q-hint">📌 Criterion: &lt; 40 mg/dL (Male) / &lt; 50 mg/dL (Female)</div>
+  <input class="q-text" id="q20" type="number" placeholder="mg/dL" oninput="calcMetS(); updateProgress()">
+</div>
+
+<!-- MetS Live Evaluation -->
+<div style="margin-top:10px;">
+  <div style="font-size:0.82rem;font-weight:600;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em;">MetS Criteria — Live Evaluation</div>
+  <div class="mets-crit" id="mc_waist">
+    <div><div class="mets-crit-label">Waist Circumference</div><div class="mets-cutoff">≥102 cm (M) / ≥88 cm (F)</div></div>
+    <div class="crit-badge" id="cb_waist">—</div>
+  </div>
+  <div class="mets-crit" id="mc_sbp">
+    <div><div class="mets-crit-label">Systolic BP</div><div class="mets-cutoff">≥130 mmHg</div></div>
+    <div class="crit-badge" id="cb_sbp">—</div>
+  </div>
+  <div class="mets-crit" id="mc_dbp">
+    <div><div class="mets-crit-label">Diastolic BP</div><div class="mets-cutoff">≥85 mmHg</div></div>
+    <div class="crit-badge" id="cb_dbp">—</div>
+  </div>
+  <div class="mets-crit" id="mc_gluc">
+    <div><div class="mets-crit-label">Fasting Glucose</div><div class="mets-cutoff">≥100 mg/dL</div></div>
+    <div class="crit-badge" id="cb_gluc">—</div>
+  </div>
+  <div class="mets-crit" id="mc_tg">
+    <div><div class="mets-crit-label">Triglycerides</div><div class="mets-cutoff">≥150 mg/dL</div></div>
+    <div class="crit-badge" id="cb_tg">—</div>
+  </div>
+  <div class="mets-crit" id="mc_hdl">
+    <div><div class="mets-crit-label">HDL-C</div><div class="mets-cutoff">&lt;40 (M) / &lt;50 (F)</div></div>
+    <div class="crit-badge" id="cb_hdl">—</div>
+  </div>
+</div>
+
+<div class="question" style="margin-top:16px;">
+  <div class="q-label"><span class="q-num">Q21.</span> Metabolic Syndrome Diagnosis (ATP III — ≥ 3 of 5 met)</div>
+  <div id="mets_diag_box" class="diag-box">
+    <div class="dt">Auto-diagnosis based on entered values</div>
+    <div class="dv" id="mets_dv">Enter values above</div>
+    <div class="dc" id="mets_dc"></div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 7 — DERM DX ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🔬 Section 7 — Dermatological Diagnosis</div>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q22.</span> Primary dermatological diagnosis</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q22','Psoriasis',this)"><div class="opt-circle"></div><input type="radio" name="q22" value="Psoriasis"> Psoriasis</label>
+    <label class="opt" onclick="selectRadio('q22','Hidradenitis suppurativa',this)"><div class="opt-circle"></div><input type="radio" name="q22" value="Hidradenitis suppurativa"> Hidradenitis suppurativa</label>
+    <label class="opt" onclick="selectRadio('q22','Acanthosis nigricans',this)"><div class="opt-circle"></div><input type="radio" name="q22" value="Acanthosis nigricans"> Acanthosis nigricans</label>
+    <label class="opt" onclick="selectRadio('q22','Lichen planus',this)"><div class="opt-circle"></div><input type="radio" name="q22" value="Lichen planus"> Lichen planus</label>
+    <label class="opt" onclick="selectRadio('q22','Androgenetic alopecia',this)"><div class="opt-circle"></div><input type="radio" name="q22" value="Androgenetic alopecia"> Androgenetic alopecia</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q23.</span> Duration of disease (years)</div>
+  <input class="q-text" type="number" id="q23" placeholder="years" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q24.</span> Family history of similar dermatological condition</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q24','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q24" value="Yes"> Yes</label>
+    <label class="opt" onclick="selectRadio('q24','No',this)"><div class="opt-circle"></div><input type="radio" name="q24" value="No"> No</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q25.</span> Current treatment</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q25','Topical therapy',this)"><div class="opt-circle"></div><input type="radio" name="q25" value="Topical therapy"> Topical therapy</label>
+    <label class="opt" onclick="selectRadio('q25','Systemic therapy',this)"><div class="opt-circle"></div><input type="radio" name="q25" value="Systemic therapy"> Systemic therapy</label>
+    <label class="opt" onclick="selectRadio('q25','Biologic therapy',this)"><div class="opt-circle"></div><input type="radio" name="q25" value="Biologic therapy"> Biologic therapy</label>
+    <label class="opt" onclick="selectRadio('q25','No treatment documented',this)"><div class="opt-circle"></div><input type="radio" name="q25" value="No treatment documented"> No treatment documented</label>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 8 — PSORIASIS ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🔴 Section 8 — Psoriasis Severity (PASI) <span class="priority-badge p1">★ 1st Priority</span></div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:18px;">📌 Complete ONLY if patient has psoriasis.</p>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q26.</span> Duration since psoriasis diagnosis</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q26','<1 year',this)"><div class="opt-circle"></div><input type="radio" name="q26" value="<1 year"> &lt; 1 year</label>
+    <label class="opt" onclick="selectRadio('q26','1-5 years',this)"><div class="opt-circle"></div><input type="radio" name="q26" value="1-5 years"> 1–5 years</label>
+    <label class="opt" onclick="selectRadio('q26','>5 years',this)"><div class="opt-circle"></div><input type="radio" name="q26" value=">5 years"> &gt; 5 years</label>
+  </div>
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q27.</span> Distribution of lesions (select all that apply)</div>
+  <div class="options" style="flex-direction:row;flex-wrap:wrap;">
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q27" value="Scalp"> Scalp</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q27" value="Face"> Face</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q27" value="Upper limbs"> Upper limbs</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q27" value="Trunk"> Trunk</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q27" value="Lower limbs"> Lower limbs</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q27" value="Nails"> Nails</label>
+  </div>
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q28.</span> Nail involvement</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q28','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q28" value="Yes"> Yes</label>
+    <label class="opt" onclick="selectRadio('q28','No',this)"><div class="opt-circle"></div><input type="radio" name="q28" value="No"> No</label>
+  </div>
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q29.</span> Presence of psoriatic arthritis</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q29','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q29" value="Yes"> Yes</label>
+    <label class="opt" onclick="selectRadio('q29','No',this)"><div class="opt-circle"></div><input type="radio" name="q29" value="No"> No</label>
+  </div>
+</div>
+
+<!-- PASI TABLE -->
+<div style="font-size:0.83rem;font-weight:600;color:var(--purple);margin:16px 0 8px;">PASI Scoring — Select 0–4 per parameter, 0–6 for % Area</div>
+<div class="q-hint" style="margin-left:0;margin-bottom:12px;">0=None · 1=Slight · 2=Moderate · 3=Severe · 4=Very Severe | Area: 0=0% · 1=1–9% · 2=10–29% · 3=30–49% · 4=50–69% · 5=70–89% · 6=90–100%</div>
+<table class="pasi-table">
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Head/Neck ×0.1</th>
+      <th>Upper Limbs ×0.2</th>
+      <th>Trunk ×0.3</th>
+      <th>Lower Limbs ×0.4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Erythema</strong><br><small style="color:var(--muted)">Q30 / Q34 / Q38 / Q42</small></td>
+      <td><select id="pe_h" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pe_u" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pe_t" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pe_l" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+    </tr>
+    <tr>
+      <td><strong>Induration</strong><br><small style="color:var(--muted)">Q31 / Q35 / Q39 / Q43</small></td>
+      <td><select id="pi_h" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pi_u" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pi_t" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pi_l" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+    </tr>
+    <tr>
+      <td><strong>Desquamation</strong><br><small style="color:var(--muted)">Q32 / Q36 / Q40 / Q44</small></td>
+      <td><select id="pd_h" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pd_u" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pd_t" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+      <td><select id="pd_l" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td>
+    </tr>
+    <tr>
+      <td><strong>% Area</strong><br><small style="color:var(--muted)">Q33 / Q37 / Q41 / Q45</small></td>
+      <td><select id="pa_h" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></td>
+      <td><select id="pa_u" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></td>
+      <td><select id="pa_t" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></td>
+      <td><select id="pa_l" onchange="calcPASI()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></td>
+    </tr>
+    <tr>
+      <td><strong>Regional Score</strong></td>
+      <td class="rs" id="rs_h">0.00</td>
+      <td class="rs" id="rs_u">0.00</td>
+      <td class="rs" id="rs_t">0.00</td>
+      <td class="rs" id="rs_l">0.00</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Q46/47 PASI Result -->
+<div class="score-box">
+  <div><div class="sc-label">Q46. Total PASI Score (0–72)</div><div class="sc-val" id="pasi_val">0.00</div></div>
+  <div><div class="sc-label" style="text-align:right;">Q47. Severity</div><div id="pasi_sev" class="sev-pill mild">Mild</div></div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 9 — HS ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🟠 Section 9 — Hidradenitis Suppurativa (IHS4) <span class="priority-badge p1">★ 1st Priority</span></div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:18px;">📌 Complete ONLY if patient has HS.</p>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q48.</span> Age at onset of HS</div>
+  <input class="q-text" type="number" id="q48" placeholder="years" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q49.</span> Disease duration (years)</div>
+  <input class="q-text" type="number" id="q49" placeholder="years" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q50.</span> Anatomical sites affected (select all that apply)</div>
+  <div class="options" style="flex-direction:row;flex-wrap:wrap;">
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q50" value="Axilla"> Axilla</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q50" value="Groin"> Groin</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q50" value="Perineal"> Perineal region</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q50" value="Inframammary"> Inframammary area</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q50" value="Buttocks"> Buttocks</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q50" value="Multiple sites"> Multiple sites</label>
+  </div>
+</div>
+
+<div class="question">
+  <div class="q-label"><span class="q-num">Q51.</span> Number of inflammatory nodules <small style="font-weight:400;color:var(--muted)">(× 1)</small></div>
+  <input class="q-text" type="number" id="hs_n" min="0" value="0" oninput="calcIHS4(); updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q52.</span> Number of abscesses <small style="font-weight:400;color:var(--muted)">(× 2)</small></div>
+  <input class="q-text" type="number" id="hs_a" min="0" value="0" oninput="calcIHS4(); updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q53.</span> Number of draining tunnels / sinus tracts <small style="font-weight:400;color:var(--muted)">(× 4)</small></div>
+  <input class="q-text" type="number" id="hs_t" min="0" value="0" oninput="calcIHS4(); updateProgress()">
+</div>
+
+<div class="formula-box" id="ihs4_formula">(0 × 1) + (0 × 2) + (0 × 4) = <strong>0</strong></div>
+
+<div class="score-box" style="margin-top:12px;">
+  <div><div class="sc-label">Q54. IHS4 Score</div><div class="sc-val" id="ihs4_val">0</div></div>
+  <div><div class="sc-label" style="text-align:right;">Q55. Severity</div><div id="ihs4_sev" class="sev-pill mild">Mild</div></div>
+</div>
+
+<div class="question" style="margin-top:14px;">
+  <div class="q-label"><span class="q-num">Q56.</span> Presence of scarring</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q56','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q56" value="Yes"> Yes</label>
+    <label class="opt" onclick="selectRadio('q56','No',this)"><div class="opt-circle"></div><input type="radio" name="q56" value="No"> No</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q57.</span> Frequency of flare-ups per year</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q57','<2',this)"><div class="opt-circle"></div><input type="radio" name="q57" value="<2"> &lt; 2 episodes</label>
+    <label class="opt" onclick="selectRadio('q57','2-5',this)"><div class="opt-circle"></div><input type="radio" name="q57" value="2-5"> 2–5 episodes</label>
+    <label class="opt" onclick="selectRadio('q57','>5',this)"><div class="opt-circle"></div><input type="radio" name="q57" value=">5"> &gt; 5 episodes</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q58.</span> Hurley Staging Classification</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q58','Stage I',this)"><div class="opt-circle"></div><input type="radio" name="q58" value="Stage I"> Stage I — Single/multiple abscesses, no sinus tracts</label>
+    <label class="opt" onclick="selectRadio('q58','Stage II',this)"><div class="opt-circle"></div><input type="radio" name="q58" value="Stage II"> Stage II — Recurrent abscesses with sinus tracts, widely separated</label>
+    <label class="opt" onclick="selectRadio('q58','Stage III',this)"><div class="opt-circle"></div><input type="radio" name="q58" value="Stage III"> Stage III — Diffuse involvement, multiple interconnected sinus tracts</label>
+    <label class="opt" onclick="selectRadio('q58','Not documented',this)"><div class="opt-circle"></div><input type="radio" name="q58" value="Not documented"> Not documented in records</label>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 10 — ACANTHOSIS ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🟡 Section 10 — Acanthosis Nigricans (Burke Scale) <span class="priority-badge p1">★ 1st Priority</span></div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:18px;">📌 Complete ONLY if patient has Acanthosis Nigricans. Burke Scale 0–11.</p>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q59.</span> Duration of skin changes</div>
+  <input class="q-text" type="text" id="q59" placeholder="e.g. 2 years" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q60.</span> Areas affected (select all that apply)</div>
+  <div class="options" style="flex-direction:row;flex-wrap:wrap;">
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q60" value="Neck"> Neck</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q60" value="Axilla"> Axilla</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q60" value="Groin"> Groin</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q60" value="Elbows"> Elbows</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q60" value="Knees"> Knees</label>
+    <label class="opt" onclick="toggleCheck(this)"><div class="opt-square"></div><input type="checkbox" name="q60" value="Knuckles"> Knuckles</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q61.</span> Neck Severity (0–4)</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('bns','0',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bns" value="0"> 0 — Absent</label>
+    <label class="opt" onclick="selectRadio('bns','1',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bns" value="1"> 1 — Visible on close inspection</label>
+    <label class="opt" onclick="selectRadio('bns','2',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bns" value="2"> 2 — Mild, localized</label>
+    <label class="opt" onclick="selectRadio('bns','3',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bns" value="3"> 3 — Moderate, extends laterally</label>
+    <label class="opt" onclick="selectRadio('bns','4',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bns" value="4"> 4 — Severe, circumferential</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q62.</span> Neck Texture (0–3)</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('bnt','0',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bnt" value="0"> 0 — Normal</label>
+    <label class="opt" onclick="selectRadio('bnt','1',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bnt" value="1"> 1 — Mild roughness</label>
+    <label class="opt" onclick="selectRadio('bnt','2',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bnt" value="2"> 2 — Moderate thickening</label>
+    <label class="opt" onclick="selectRadio('bnt','3',this); calcBurke()"><div class="opt-circle"></div><input type="radio" name="bnt" value="3"> 3 — Severe thickening</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q63–Q66.</span> Other Sites — Burke Scale (0/1 each)</div>
+  <div class="options" style="flex-direction:row;flex-wrap:wrap;">
+    <label class="opt" onclick="toggleCheck(this); calcBurke()"><div class="opt-square"></div><input type="checkbox" id="b_ax" value="1"> Axilla</label>
+    <label class="opt" onclick="toggleCheck(this); calcBurke()"><div class="opt-square"></div><input type="checkbox" id="b_kn" value="1"> Knuckles</label>
+    <label class="opt" onclick="toggleCheck(this); calcBurke()"><div class="opt-square"></div><input type="checkbox" id="b_el" value="1"> Elbows</label>
+    <label class="opt" onclick="toggleCheck(this); calcBurke()"><div class="opt-square"></div><input type="checkbox" id="b_ke" value="1"> Knees</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q67.</span> Thickness of hyperpigmented plaques</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q67','Mild',this)"><div class="opt-circle"></div><input type="radio" name="q67" value="Mild"> Mild discoloration without thickening</label>
+    <label class="opt" onclick="selectRadio('q67','Moderate',this)"><div class="opt-circle"></div><input type="radio" name="q67" value="Moderate"> Moderate thickening</label>
+    <label class="opt" onclick="selectRadio('q67','Severe',this)"><div class="opt-circle"></div><input type="radio" name="q67" value="Severe"> Severe thickened velvety plaques</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q68.</span> Presence of associated skin tags</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q68','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q68" value="Yes"> Yes</label>
+    <label class="opt" onclick="selectRadio('q68','No',this)"><div class="opt-circle"></div><input type="radio" name="q68" value="No"> No</label>
+  </div>
+</div>
+
+<div class="score-box">
+  <div><div class="sc-label">Q69. Burke Scale Total (0–11)</div><div class="sc-val" id="burke_val">0</div></div>
+  <div><div class="sc-label" style="text-align:right;">Q70. Severity</div><div id="burke_sev" class="sev-pill none">None</div></div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 11 — LICHEN PLANUS ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🟢 Section 11 — Lichen Planus <span class="priority-badge p2">★ 2nd Priority</span></div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:18px;">📌 Complete ONLY if patient has Lichen Planus.</p>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q71.</span> Type of Lichen Planus</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q71','Cutaneous only',this)"><div class="opt-circle"></div><input type="radio" name="q71" value="Cutaneous only"> Cutaneous only</label>
+    <label class="opt" onclick="selectRadio('q71','Oral only',this)"><div class="opt-circle"></div><input type="radio" name="q71" value="Oral only"> Oral only</label>
+    <label class="opt" onclick="selectRadio('q71','Genital only',this)"><div class="opt-circle"></div><input type="radio" name="q71" value="Genital only"> Genital only</label>
+    <label class="opt" onclick="selectRadio('q71','Mixed',this)"><div class="opt-circle"></div><input type="radio" name="q71" value="Mixed"> Mixed involvement</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q72.</span> Duration of disease (years)</div>
+  <input class="q-text" type="number" id="q72" placeholder="years" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q73.</span> Number of lesions documented</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q73','<10',this)"><div class="opt-circle"></div><input type="radio" name="q73" value="<10"> &lt; 10 lesions</label>
+    <label class="opt" onclick="selectRadio('q73','10-50',this)"><div class="opt-circle"></div><input type="radio" name="q73" value="10-50"> 10–50 lesions</label>
+    <label class="opt" onclick="selectRadio('q73','>50',this)"><div class="opt-circle"></div><input type="radio" name="q73" value=">50"> &gt; 50 lesions</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q74.</span> Distribution of lesions</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q74','Localized',this)"><div class="opt-circle"></div><input type="radio" name="q74" value="Localized"> Localized</label>
+    <label class="opt" onclick="selectRadio('q74','Generalized',this)"><div class="opt-circle"></div><input type="radio" name="q74" value="Generalized"> Generalized</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q75.</span> Presence of mucosal involvement</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q75','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q75" value="Yes"> Yes</label>
+    <label class="opt" onclick="selectRadio('q75','No',this)"><div class="opt-circle"></div><input type="radio" name="q75" value="No"> No</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q76.</span> Presence of nail involvement</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q76','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q76" value="Yes"> Yes</label>
+    <label class="opt" onclick="selectRadio('q76','No',this)"><div class="opt-circle"></div><input type="radio" name="q76" value="No"> No</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q77.</span> Severity of pruritus (itching)</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q77','Mild',this)"><div class="opt-circle"></div><input type="radio" name="q77" value="Mild"> Mild</label>
+    <label class="opt" onclick="selectRadio('q77','Moderate',this)"><div class="opt-circle"></div><input type="radio" name="q77" value="Moderate"> Moderate</label>
+    <label class="opt" onclick="selectRadio('q77','Severe',this)"><div class="opt-circle"></div><input type="radio" name="q77" value="Severe"> Severe</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q78.</span> Skin Involvement — LPAI Score</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q78','0',this)"><div class="opt-circle"></div><input type="radio" name="q78" value="0"> 0 — No active disease</label>
+    <label class="opt" onclick="selectRadio('q78','1',this)"><div class="opt-circle"></div><input type="radio" name="q78" value="1"> 1 — Mild activity</label>
+    <label class="opt" onclick="selectRadio('q78','2',this)"><div class="opt-circle"></div><input type="radio" name="q78" value="2"> 2 — Moderate activity</label>
+    <label class="opt" onclick="selectRadio('q78','3',this)"><div class="opt-circle"></div><input type="radio" name="q78" value="3"> 3 — Severe activity</label>
+    <label class="opt" onclick="selectRadio('q78','ND',this)"><div class="opt-circle"></div><input type="radio" name="q78" value="ND"> Not documented</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q79.</span> Oral Involvement — Thongprasom Score</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q79','0',this)"><div class="opt-circle"></div><input type="radio" name="q79" value="0"> 0 — No lesion</label>
+    <label class="opt" onclick="selectRadio('q79','1',this)"><div class="opt-circle"></div><input type="radio" name="q79" value="1"> 1 — White striae only</label>
+    <label class="opt" onclick="selectRadio('q79','2',this)"><div class="opt-circle"></div><input type="radio" name="q79" value="2"> 2 — Striae + atrophic &lt; 1cm²</label>
+    <label class="opt" onclick="selectRadio('q79','3',this)"><div class="opt-circle"></div><input type="radio" name="q79" value="3"> 3 — Striae + atrophic &gt; 1cm²</label>
+    <label class="opt" onclick="selectRadio('q79','4',this)"><div class="opt-circle"></div><input type="radio" name="q79" value="4"> 4 — Striae + erosive &lt; 1cm²</label>
+    <label class="opt" onclick="selectRadio('q79','5',this)"><div class="opt-circle"></div><input type="radio" name="q79" value="5"> 5 — Striae + erosive &gt; 1cm²</label>
+    <label class="opt" onclick="selectRadio('q79','NA',this)"><div class="opt-circle"></div><input type="radio" name="q79" value="NA"> No oral involvement / Not documented</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q80.</span> Overall clinical severity</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q80','Mild',this)"><div class="opt-circle"></div><input type="radio" name="q80" value="Mild"> Mild — limited lesions, mild symptoms</label>
+    <label class="opt" onclick="selectRadio('q80','Moderate',this)"><div class="opt-circle"></div><input type="radio" name="q80" value="Moderate"> Moderate — multiple lesions, moderate itching</label>
+    <label class="opt" onclick="selectRadio('q80','Severe',this)"><div class="opt-circle"></div><input type="radio" name="q80" value="Severe"> Severe — widespread lesions and/or mucosal involvement</label>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 12 — ALOPECIA ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🔵 Section 12 — Androgenetic Alopecia <span class="priority-badge p2">★ 2nd Priority</span></div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:18px;">📌 Complete ONLY if patient has Androgenetic Alopecia.</p>
+
+```
+<div class="question">
+  <div class="q-label"><span class="q-num">Q81.</span> Age at onset of hair loss</div>
+  <input class="q-text" type="number" id="q81" placeholder="years" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q82.</span> Duration of hair loss (years)</div>
+  <input class="q-text" type="number" id="q82" placeholder="years" oninput="updateProgress()">
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q83.</span> Pattern of hair loss observed</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q83','Frontal',this)"><div class="opt-circle"></div><input type="radio" name="q83" value="Frontal"> Frontal hairline recession</label>
+    <label class="opt" onclick="selectRadio('q83','Vertex',this)"><div class="opt-circle"></div><input type="radio" name="q83" value="Vertex"> Vertex thinning</label>
+    <label class="opt" onclick="selectRadio('q83','Diffuse',this)"><div class="opt-circle"></div><input type="radio" name="q83" value="Diffuse"> Diffuse thinning</label>
+    <label class="opt" onclick="selectRadio('q83','Combination',this)"><div class="opt-circle"></div><input type="radio" name="q83" value="Combination"> Combination pattern</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q84.</span> Family history of androgenetic alopecia</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q84','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q84" value="Yes"> Yes</label>
+    <label class="opt" onclick="selectRadio('q84','No',this)"><div class="opt-circle"></div><input type="radio" name="q84" value="No"> No</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q85.</span> Male Pattern — Hamilton–Norwood Scale</div>
+  <div class="options" style="flex-direction:row;flex-wrap:wrap;">
+    <label class="opt" onclick="selectRadio('q85','I',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="I"> Stage I</label>
+    <label class="opt" onclick="selectRadio('q85','II',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="II"> Stage II</label>
+    <label class="opt" onclick="selectRadio('q85','III',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="III"> Stage III</label>
+    <label class="opt" onclick="selectRadio('q85','IIIv',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="IIIv"> Stage III Vertex</label>
+    <label class="opt" onclick="selectRadio('q85','IV',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="IV"> Stage IV</label>
+    <label class="opt" onclick="selectRadio('q85','V',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="V"> Stage V</label>
+    <label class="opt" onclick="selectRadio('q85','VI',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="VI"> Stage VI</label>
+    <label class="opt" onclick="selectRadio('q85','VII',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="VII"> Stage VII</label>
+    <label class="opt" onclick="selectRadio('q85','NA',this)"><div class="opt-circle"></div><input type="radio" name="q85" value="NA"> Not applicable (female)</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q86.</span> Female Pattern — Ludwig Scale</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q86','I',this)"><div class="opt-circle"></div><input type="radio" name="q86" value="I"> Stage I — Mild thinning</label>
+    <label class="opt" onclick="selectRadio('q86','II',this)"><div class="opt-circle"></div><input type="radio" name="q86" value="II"> Stage II — Moderate thinning</label>
+    <label class="opt" onclick="selectRadio('q86','III',this)"><div class="opt-circle"></div><input type="radio" name="q86" value="III"> Stage III — Severe thinning</label>
+    <label class="opt" onclick="selectRadio('q86','NA',this)"><div class="opt-circle"></div><input type="radio" name="q86" value="NA"> Not applicable (male)</label>
+  </div>
+</div>
+<div class="question">
+  <div class="q-label"><span class="q-num">Q87.</span> Associated scalp findings</div>
+  <div class="options">
+    <label class="opt" onclick="selectRadio('q87','Shedding',this)"><div class="opt-circle"></div><input type="radio" name="q87" value="Shedding"> Increased hair shedding</label>
+    <label class="opt" onclick="selectRadio('q87','Miniaturized',this)"><div class="opt-circle"></div><input type="radio" name="q87" value="Miniaturized"> Miniaturized hair follicles</label>
+    <label class="opt" onclick="selectRadio('q87','Normal',this)"><div class="opt-circle"></div><input type="radio" name="q87" value="Normal"> Normal scalp</label>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ SECTION 13 — COMORBIDITIES ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">🏥 Section 13 — Comorbidities</div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">Q88.</span> Type 2 Diabetes Mellitus</div>
+      <div class="options">
+        <label class="opt" onclick="selectRadio('q88','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q88" value="Yes"> Yes</label>
+        <label class="opt" onclick="selectRadio('q88','No',this)"><div class="opt-circle"></div><input type="radio" name="q88" value="No"> No</label>
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">Q89.</span> Hypertension</div>
+      <div class="options">
+        <label class="opt" onclick="selectRadio('q89','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q89" value="Yes"> Yes</label>
+        <label class="opt" onclick="selectRadio('q89','No',this)"><div class="opt-circle"></div><input type="radio" name="q89" value="No"> No</label>
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">Q90.</span> Dyslipidemia</div>
+      <div class="options">
+        <label class="opt" onclick="selectRadio('q90','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q90" value="Yes"> Yes</label>
+        <label class="opt" onclick="selectRadio('q90','No',this)"><div class="opt-circle"></div><input type="radio" name="q90" value="No"> No</label>
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">Q91.</span> Cardiovascular disease</div>
+      <div class="options">
+        <label class="opt" onclick="selectRadio('q91','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q91" value="Yes"> Yes</label>
+        <label class="opt" onclick="selectRadio('q91','No',this)"><div class="opt-circle"></div><input type="radio" name="q91" value="No"> No</label>
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">Q92.</span> Obesity (BMI ≥ 30)</div>
+      <div class="options">
+        <label class="opt" onclick="selectRadio('q92','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q92" value="Yes"> Yes</label>
+        <label class="opt" onclick="selectRadio('q92','No',this)"><div class="opt-circle"></div><input type="radio" name="q92" value="No"> No</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 14 — OUTCOMES ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">📈 Section 14 — Clinical Outcome</div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">Q93.</span> Disease course during follow-up</div>
+      <div class="options">
+        <label class="opt" onclick="selectRadio('q93','Improved',this)"><div class="opt-circle"></div><input type="radio" name="q93" value="Improved"> Improved</label>
+        <label class="opt" onclick="selectRadio('q93','Stable',this)"><div class="opt-circle"></div><input type="radio" name="q93" value="Stable"> Stable</label>
+        <label class="opt" onclick="selectRadio('q93','Worsened',this)"><div class="opt-circle"></div><input type="radio" name="q93" value="Worsened"> Worsened</label>
+        <label class="opt" onclick="selectRadio('q93','Not documented',this)"><div class="opt-circle"></div><input type="radio" name="q93" value="Not documented"> Not documented</label>
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-label"><span class="q-num">Q94.</span> Dermatology-related hospital admission</div>
+      <div class="options">
+        <label class="opt" onclick="selectRadio('q94','Yes',this)"><div class="opt-circle"></div><input type="radio" name="q94" value="Yes"> Yes</label>
+        <label class="opt" onclick="selectRadio('q94','No',this)"><div class="opt-circle"></div><input type="radio" name="q94" value="No"> No</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SUMMARY ═══ -->
+
+  <div class="section-card">
+    <div class="section-title">📊 Auto-Generated Score Summary</div>
+    <div class="summary-grid" id="sum_grid"></div>
+  </div>
+
+  <!-- SUBMIT BAR -->
+
+  <div class="submit-bar">
+    <button class="btn-clear" onclick="if(confirm('Clear all entries?')) location.reload()">🗑 Clear form</button>
+    <button class="btn-submit" onclick="submitToSheets()">📤 Submit & Save Data</button>
+    <button class="btn-submit" style="background:#1e8e3e;" onclick="window.print()">🖨️ Print / PDF</button>
+  </div>
+
+  <!-- Submit status -->
+
+  <div id="submit_status" style="display:none;text-align:center;padding:16px;border-radius:8px;margin-top:12px;font-weight:500;"></div>
+
+</div><!-- /form-wrap -->
+
+<script>
+// ── Radio & Checkbox helpers ──────────────────────────
+function selectRadio(name, val, el) {
+  document.querySelectorAll(`input[name="${name}"]`).forEach(i => {
+    i.checked = false;
+    i.closest('.opt').classList.remove('selected-radio');
+  });
+  el.querySelector('input').checked = true;
+  el.classList.add('selected-radio');
+  updateProgress();
+  updateSummary();
+}
+
+function toggleCheck(el) {
+  const inp = el.querySelector('input');
+  inp.checked = !inp.checked;
+  el.classList.toggle('selected-check', inp.checked);
+  updateProgress();
+}
+
+// ── Progress ──────────────────────────────────────────
+function updateProgress() {
+  const texts = document.querySelectorAll('.q-text:not([readonly])');
+  const radios = [...new Set([...document.querySelectorAll('input[type=radio]')].map(i=>i.name))];
+  let filled = 0, total = 0;
+  texts.forEach(t => { total++; if(t.value.trim()) filled++; });
+  radios.forEach(n => { total++; if(document.querySelector(`input[name="${n}"]:checked`)) filled++; });
+  const pct = total ? Math.round(filled/total*100) : 0;
+  document.getElementById('prog_fill').style.width = pct + '%';
+  document.getElementById('prog_pct').textContent = pct + '%';
+}
+
+// ── BMI ───────────────────────────────────────────────
+function calcBMI() {
+  const h = parseFloat(document.getElementById('q12').value);
+  const w = parseFloat(document.getElementById('q13').value);
+  if(h && w) {
+    const bmi = (w / ((h/100)**2)).toFixed(1);
+    document.getElementById('q14').value = bmi + ' kg/m²';
+  } else {
+    document.getElementById('q14').value = '';
+  }
+  calcMetS();
+  updateSummary();
+}
+
+// ── MetS ──────────────────────────────────────────────
+function calcMetS() {
+  const g = document.querySelector('input[name="q5"]:checked')?.value || '';
+  const v = id => parseFloat(document.getElementById(id)?.value);
+
+  const waist = v('q15'); const sbp = v('q16'); const dbp = v('q17');
+  const gluc = v('q18'); const tg = v('q19'); const hdl = v('q20');
+
+  const isFemale = g === 'Female';
+  const criteria = [
+    { mc:'mc_waist', cb:'cb_waist', val:waist, met: isFemale ? waist>=88 : waist>=102 },
+    { mc:'mc_sbp',   cb:'cb_sbp',   val:sbp,   met: sbp>=130 },
+    { mc:'mc_dbp',   cb:'cb_dbp',   val:dbp,   met: dbp>=85  },
+    { mc:'mc_gluc',  cb:'cb_gluc',  val:gluc,  met: gluc>=100 },
+    { mc:'mc_tg',    cb:'cb_tg',    val:tg,    met: tg>=150  },
+    { mc:'mc_hdl',   cb:'cb_hdl',   val:hdl,   met: isFemale ? hdl<50 : hdl<40 },
+  ];
+
+  let count = 0;
+  criteria.forEach(c => {
+    const cb = document.getElementById(c.cb);
+    const mc = document.getElementById(c.mc);
+    if(isNaN(c.val)) {
+      cb.textContent = '—'; cb.className = 'crit-badge'; mc.className = 'mets-crit';
+    } else {
+      if(c.met) { count++; cb.textContent = '✓ Met'; cb.className = 'crit-badge met'; mc.className = 'mets-crit met'; }
+      else { cb.textContent = '✗ No'; cb.className = 'crit-badge ok'; mc.className = 'mets-crit'; }
+    }
+  });
+
+  const filled = criteria.filter(c=>!isNaN(c.val)).length;
+  const box = document.getElementById('mets_diag_box');
+  const dv = document.getElementById('mets_dv');
+  const dc = document.getElementById('mets_dc');
+  if(filled === 0) {
+    box.className = 'diag-box'; dv.textContent = 'Enter values above'; dc.textContent = '';
+  } else {
+    const present = count >= 3;
+    box.className = 'diag-box ' + (present ? 'present' : 'absent');
+    dv.textContent = present ? '⚠️ Metabolic Syndrome: PRESENT' : '✅ Metabolic Syndrome: Absent';
+    dc.textContent = count + ' / ' + filled + ' criteria met' + (filled<6?' (some values missing)':'');
+  }
+  updateSummary();
+}
+
+// ── PASI ─────────────────────────────────────────────
+function calcPASI() {
+  const v = id => parseFloat(document.getElementById(id).value)||0;
+  const regions = [
+    {e:'pe_h',i:'pi_h',d:'pd_h',a:'pa_h',w:0.1,rs:'rs_h'},
+    {e:'pe_u',i:'pi_u',d:'pd_u',a:'pa_u',w:0.2,rs:'rs_u'},
+    {e:'pe_t',i:'pi_t',d:'pd_t',a:'pa_t',w:0.3,rs:'rs_t'},
+    {e:'pe_l',i:'pi_l',d:'pd_l',a:'pa_l',w:0.4,rs:'rs_l'},
+  ];
+  let total = 0;
+  regions.forEach(r => {
+    const s = (v(r.e)+v(r.i)+v(r.d))*v(r.a)*r.w;
+    document.getElementById(r.rs).textContent = s.toFixed(2);
+    total += s;
+  });
+  document.getElementById('pasi_val').textContent = total.toFixed(2);
+  const [sev,cls] = total<10?['Mild','mild']:total<=20?['Moderate','moderate']:['Severe','severe'];
+  const pill = document.getElementById('pasi_sev');
+  pill.textContent = sev; pill.className = 'sev-pill '+cls;
+  updateSummary();
+}
+
+// ── IHS4 ─────────────────────────────────────────────
+function calcIHS4() {
+  const n = parseInt(document.getElementById('hs_n').value)||0;
+  const a = parseInt(document.getElementById('hs_a').value)||0;
+  const t = parseInt(document.getElementById('hs_t').value)||0;
+  const score = n+a*2+t*4;
+  document.getElementById('ihs4_formula').innerHTML =
+    `(${n} × 1) + (${a} × 2) + (${t} × 4) = <strong>${score}</strong>`;
+  document.getElementById('ihs4_val').textContent = score;
+  const [sev,cls] = score<=3?['Mild','mild']:score<=10?['Moderate','moderate']:['Severe','severe'];
+  const pill = document.getElementById('ihs4_sev');
+  pill.textContent = sev; pill.className = 'sev-pill '+cls;
+  updateSummary();
+}
+
+// ── Burke ─────────────────────────────────────────────
+function calcBurke() {
+  const ns = parseInt(document.querySelector('input[name="bns"]:checked')?.value||0);
+  const nt = parseInt(document.querySelector('input[name="bnt"]:checked')?.value||0);
+  const ax = document.getElementById('b_ax')?.checked?1:0;
+  const kn = document.getElementById('b_kn')?.checked?1:0;
+  const el = document.getElementById('b_el')?.checked?1:0;
+  const ke = document.getElementById('b_ke')?.checked?1:0;
+  const total = ns+nt+ax+kn+el+ke;
+  document.getElementById('burke_val').textContent = total;
+  const [sev,cls] = total===0?['None','none']:total<=3?['Mild','mild']:total<=6?['Moderate','moderate']:['Severe','severe'];
+  const pill = document.getElementById('burke_sev');
+  pill.textContent = sev; pill.className = 'sev-pill '+cls;
+  updateSummary();
+}
+
+// ── Summary ───────────────────────────────────────────
+function updateSummary() {
+  const pasi = parseFloat(document.getElementById('pasi_val').textContent)||0;
+  const pasiSev = pasi<10?'Mild':pasi<=20?'Moderate':'Severe';
+  const ihs4 = parseInt(document.getElementById('ihs4_val').textContent)||0;
+  const ihs4Sev = ihs4<=3?'Mild':ihs4<=10?'Moderate':'Severe';
+  const burke = parseInt(document.getElementById('burke_val').textContent)||0;
+  const burkeSev = burke===0?'None':burke<=3?'Mild':burke<=6?'Moderate':'Severe';
+
+  const h = parseFloat(document.getElementById('q12').value);
+  const w = parseFloat(document.getElementById('q13').value);
+  const bmi = (h && w) ? (w/((h/100)**2)).toFixed(1) : '—';
+
+  const lpai = document.querySelector('input[name="q78"]:checked')?.value || '—';
+  const thong = document.querySelector('input[name="q79"]:checked')?.value || '—';
+  const hn = document.querySelector('input[name="q85"]:checked')?.value || 'N/A';
+  const ludwig = document.querySelector('input[name="q86"]:checked')?.value || 'N/A';
+  const metsText = document.getElementById('mets_dv').textContent;
+
+  const sevCls = s => s==='Mild'?'mild':s==='Moderate'?'moderate':s==='Severe'?'severe':'na';
+
+  const items = [
+    {l:'PASI Score', v:pasi.toFixed(2), s:pasiSev},
+    {l:'IHS4 Score', v:ihs4, s:ihs4Sev},
+    {l:'Burke Scale', v:burke, s:burkeSev},
+    {l:'LPAI (skin)', v:lpai==='—'?'—':lpai, s:['No activity','Mild','Moderate','Severe'][lpai]||'—'},
+    {l:'Thongprasom', v:thong==='—'?'—':thong, s:thong>='4'?'Severe':thong>='2'?'Moderate':thong==='1'?'Mild':thong==='0'?'None':'—'},
+    {l:'Hamilton–Norwood', v:hn, s:hn==='N/A'||hn==='NA'?'N/A':hn},
+    {l:'Ludwig Scale', v:ludwig, s:ludwig==='N/A'||ludwig==='NA'?'N/A':ludwig},
+    {l:'BMI', v:bmi, s:bmi==='—'?'—':parseFloat(bmi)<25?'Normal':parseFloat(bmi)<30?'Overweight':'Obese'},
+    {l:'MetS Diagnosis', v:'', s:metsText},
+  ];
+
+  document.getElementById('sum_grid').innerHTML = items.map(it=>`
+    <div class="sum-card">
+      <div class="sl">${it.l}</div>
+      <div class="sv">${it.v}</div>
+      <div class="ss ${sevCls(it.s)}">${it.s}</div>
+    </div>
+  `).join('');
+}
+
+// ── Submit to Google Sheets ───────────────────────────
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyUj7RPAL93M2hDFsrix9Iaq2LCtzLp7YfrLksV2HuLKZcz7xMg2UAIYi2zUKvPiHRREQ/exec";
+
+function submitToSheets() {
+  const status = document.getElementById('submit_status');
+  status.style.display = 'block';
+  status.style.background = '#e8f0fe';
+  status.style.color = '#1a73e8';
+  status.textContent = '⏳ Saving data...';
+
+  const data = {
+    timestamp: new Date().toLocaleString(),
+    // Section 1
+    study_code: document.getElementById('q1')?.value || '',
+    mrn: document.getElementById('q2')?.value || '',
+    date: document.getElementById('q3')?.value || '',
+    // Section 2
+    age: document.getElementById('q4')?.value || '',
+    sex: document.querySelector('input[name="q5"]:checked')?.value || '',
+    nationality: document.getElementById('q6')?.value || '',
+    marital_status: document.querySelector('input[name="q7"]:checked')?.value || '',
+    occupation: document.getElementById('q8')?.value || '',
+    // Section 3
+    smoking: document.querySelector('input[name="q9"]:checked')?.value || '',
+    activity: document.querySelector('input[name="q10"]:checked')?.value || '',
+    diet: document.querySelector('input[name="q11"]:checked')?.value || '',
+    // Section 4-6 (Measurements)
+    height: document.getElementById('q12')?.value || '',
+    weight: document.getElementById('q13')?.value || '',
+    bmi: document.getElementById('q14')?.value || '',
+    waist: document.getElementById('q15')?.value || '',
+    sbp: document.getElementById('q16')?.value || '',
+    dbp: document.getElementById('q17')?.value || '',
+    glucose: document.getElementById('q18')?.value || '',
+    triglycerides: document.getElementById('q19')?.value || '',
+    hdl: document.getElementById('q20')?.value || '',
+    mets_diagnosis: document.getElementById('mets_dv')?.textContent || '',
+    // Section 7
+    primary_dx: document.querySelector('input[name="q22"]:checked')?.value || '',
+    disease_duration: document.getElementById('q23')?.value || '',
+    family_history: document.querySelector('input[name="q24"]:checked')?.value || '',
+    treatment: document.querySelector('input[name="q25"]:checked')?.value || '',
+    // PASI
+    pasi_score: document.getElementById('pasi_val')?.textContent || '',
+    pasi_severity: document.getElementById('pasi_sev')?.textContent || '',
+    // IHS4
+    ihs4_score: document.getElementById('ihs4_val')?.textContent || '',
+    ihs4_severity: document.getElementById('ihs4_sev')?.textContent || '',
+    hurley_stage: document.querySelector('input[name="q58"]:checked')?.value || '',
+    // Burke
+    burke_score: document.getElementById('burke_val')?.textContent || '',
+    burke_severity: document.getElementById('burke_sev')?.textContent || '',
+    // Lichen Planus
+    lpai: document.querySelector('input[name="q78"]:checked')?.value || '',
+    thongprasom: document.querySelector('input[name="q79"]:checked')?.value || '',
+    lp_severity: document.querySelector('input[name="q80"]:checked')?.value || '',
+    // Alopecia
+    hamilton_norwood: document.querySelector('input[name="q85"]:checked')?.value || '',
+    ludwig: document.querySelector('input[name="q86"]:checked')?.value || '',
+    // Comorbidities
+    dm2: document.querySelector('input[name="q88"]:checked')?.value || '',
+    hypertension: document.querySelector('input[name="q89"]:checked')?.value || '',
+    dyslipidemia: document.querySelector('input[name="q90"]:checked')?.value || '',
+    cvd: document.querySelector('input[name="q91"]:checked')?.value || '',
+    obesity: document.querySelector('input[name="q92"]:checked')?.value || '',
+    // Outcome
+    disease_course: document.querySelector('input[name="q93"]:checked')?.value || '',
+    hospital_admission: document.querySelector('input[name="q94"]:checked')?.value || '',
+  };
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(() => {
+    status.style.background = '#e6f4ea';
+    status.style.color = '#1e8e3e';
+    status.textContent = '✅ Data saved successfully to Google Sheets!';
+  }).catch(err => {
+    status.style.background = '#fce8e6';
+    status.style.color = '#c5221f';
+    status.textContent = '❌ Error saving data. Please try again.';
+  });
+}
+
+// Init
+updateSummary();
+updateProgress();
+</script>
+
+</body>
+</html>
