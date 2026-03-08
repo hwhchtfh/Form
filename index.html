@@ -436,6 +436,24 @@ body {
     <p style="margin-top:8px;font-size:0.82rem;color:#c5221f;">★ Required fields are indicated per section. All scores calculated automatically.</p>
   </div>
 
+  <!-- ═══ RESEARCHER ID ═══ -->
+  <div class="section-card" style="border-top: 6px solid #1a73e8;">
+    <div class="section-title" style="color:#1a73e8;">👩‍🔬 Researcher Identification</div>
+    <div class="question">
+      <div class="q-label"><span class="q-num" style="color:#1a73e8;">R.</span> Researcher ID <span style="color:#d93025;">★</span></div>
+      <div class="q-hint">اختاري رقمك الخاص — سيظهر في Google Sheets لتتبع الحالات</div>
+      <div class="options" style="flex-direction:row;flex-wrap:wrap;">
+        <label class="opt" onclick="selectRadio('researcher_id','1',this)"><div class="opt-circle"></div><input type="radio" name="researcher_id" value="1"> 1</label>
+        <label class="opt" onclick="selectRadio('researcher_id','2',this)"><div class="opt-circle"></div><input type="radio" name="researcher_id" value="2"> 2</label>
+        <label class="opt" onclick="selectRadio('researcher_id','3',this)"><div class="opt-circle"></div><input type="radio" name="researcher_id" value="3"> 3</label>
+        <label class="opt" onclick="selectRadio('researcher_id','4',this)"><div class="opt-circle"></div><input type="radio" name="researcher_id" value="4"> 4</label>
+        <label class="opt" onclick="selectRadio('researcher_id','5',this)"><div class="opt-circle"></div><input type="radio" name="researcher_id" value="5"> 5</label>
+        <label class="opt" onclick="selectRadio('researcher_id','6',this)"><div class="opt-circle"></div><input type="radio" name="researcher_id" value="6"> 6</label>
+        <label class="opt" onclick="selectRadio('researcher_id','7',this)"><div class="opt-circle"></div><input type="radio" name="researcher_id" value="7"> 7</label>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ SECTION 1 — PATIENT ID ═══ -->
   <div class="section-card">
     <div class="section-title">📁 Section 1 — Patient Identification</div>
@@ -1328,6 +1346,7 @@ function submitToSheets() {
 
   const data = {
     timestamp: new Date().toLocaleString(),
+    researcher_id: document.querySelector('input[name="researcher_id"]:checked')?.value || '',
     // Section 1
     study_code: document.getElementById('q1')?.value || '',
     mrn: document.getElementById('q2')?.value || '',
